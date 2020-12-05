@@ -3,7 +3,7 @@ name: Push Container to Docker Hub and Heroku
 on: 
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build:
