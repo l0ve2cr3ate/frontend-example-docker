@@ -1,4 +1,4 @@
-name: Push  to Docker Hub and Heroku
+name: Push Container to Docker Hub and Heroku
 
 on: 
   push:
