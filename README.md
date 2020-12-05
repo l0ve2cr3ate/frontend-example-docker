@@ -1,6 +1,6 @@
 # frontend-example-docker
 
-This project is created to help learn docker configurations for frontend projects.
+This project is created to help learn docker configurations for frontend projects
 
 # Prerequisites
 
