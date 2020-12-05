@@ -8,28 +8,32 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: .
     steps:
-    - uses: actions/checkout@v1
-    - name: Login to DockerHub
-      run: docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }}
-    - name: Build image
-      run: docker build -t exercise3.2 .
-    - name: Add tags to image for Docker Hub and Heroku
-      run: |
-        docker tag exercise3.2 ${{ secrets.DOCKER_USERNAME }}/fr-example
-        docker tag exercise3.2 registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
-    - name: push image to Docker Hub
-      run: docker push ${{ secrets.DOCKER_USERNAME }}/fr-example
+      - uses: actions/checkout@v1
+      - name: Login to DockerHub
+        run: docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build image
+        run: docker build -t exercise3.2 .
+      - name: Add tags to image for Docker Hub and Heroku
+        run: |
+          docker tag exercise3.2 ${{ secrets.DOCKER_USERNAME }}/fr-example
+          docker tag exercise3.2 registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
+      - name: push image to Docker Hub
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/fr-example
 
-    - name: Login to Heroku Container registry
-      env: 
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:login 
-    - name: Build and push Container to Heroku
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
-    - name: Release
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web 
+      - name: Login to Heroku Container registry
+        env: 
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:login 
+        - name: Build and push Container to Heroku
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
+      - name: Release
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web 
