@@ -9,5 +9,5 @@ RUN apt-get update && apt-get install -y curl && \
 COPY package*.json ./
 RUN npm install
 COPY . .
-RUN npm build
+RUN npm run build
 CMD serve -s -l $PORT dist
